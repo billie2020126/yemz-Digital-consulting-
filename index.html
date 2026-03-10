@@ -4,641 +4,1331 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yemz Digital Consulting | YDC</title>
-    <!-- Font Awesome 6 (free) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts: Inter + Playfair Display for elegance -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Playfair+Display:ital,wght@0,400;0,600;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: "Inter", sans-serif;
-            background-color: #fbfaf8;
-            color: #1e1e2a;
-            line-height: 1.5;
-            scroll-behavior: smooth;
             overflow-x: hidden;
+            background: #f8faff;
         }
 
-        /* color palette – warm digital / deep indigo + sand */
-        :root {
-            --primary: #1f2b3c;       /* deep navy */
-            --accent: #c9a76b;         /* warm gold */
-            --soft-bg: #f4f1ea;
-            --text-light: #5b5f6b;
-            --white-off: #fffffffa;
-            --shadow: 0 20px 35px -10px rgba(0,10,30,0.15);
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
         }
 
-        h1, h2, h3 {
-            font-family: "Playfair Display", serif;
-            font-weight: 600;
-            letter-spacing: -0.02em;
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
         }
 
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 2rem;
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 5px;
         }
 
-        /* ===== reveal on scroll animation ===== */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.1, 1), transform 0.8s cubic-bezier(0.2, 0.9, 0.1, 1);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ===== header / nav ===== */
-        .navbar {
+        /* Navigation */
+        nav {
+            position: fixed;
+            width: 100%;
+            padding: 1.5rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 2rem;
-            background-color: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(201, 167, 107, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
         }
 
         .logo {
-            font-size: 1.9rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            font-family: "Playfair Display", serif;
-            color: var(--primary);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
+
         .logo span {
-            color: var(--accent);
-            font-weight: 400;
-            font-size: 1.4rem;
-            margin-left: 0.2rem;
+            font-size: 1rem;
+            display: block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .nav-links {
             display: flex;
-            gap: 2.2rem;
-            align-items: center;
+            gap: 2rem;
         }
+
         .nav-links a {
             text-decoration: none;
-            color: var(--primary);
+            color: #333;
             font-weight: 500;
-            border-bottom: 2px solid transparent;
-            transition: 0.2s;
-            padding-bottom: 4px;
+            transition: all 0.3s ease;
+            position: relative;
         }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
         .nav-links a:hover {
-            border-bottom-color: var(--accent);
-            color: var(--accent);
-        }
-        .cta-nav {
-            background: var(--primary);
-            color: white !important;
-            padding: 0.6rem 1.5rem;
-            border-radius: 40px;
-            border-bottom: none !important;
-        }
-        .cta-nav:hover {
-            background: #2c3d55;
-            color: white !important;
-            border-bottom: none;
+            color: #667eea;
         }
 
-        .mobile-menu {
+        .menu-btn {
             display: none;
-            font-size: 2rem;
+            font-size: 1.5rem;
             cursor: pointer;
-            color: var(--primary);
+            color: #333;
         }
 
-        /* ===== footer ===== */
-        .footer {
-            background: var(--primary);
-            color: #dddddd;
-            padding: 4rem 2rem 2rem;
-            margin-top: 5rem;
+        /* Animation Classes */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
         }
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2.5rem;
-            max-width: 1280px;
-            margin: 0 auto;
+
+        .fade-up.active {
+            opacity: 1;
+            transform: translateY(0);
         }
-        .footer-col p, .footer-col li {
-            font-size: 0.95rem;
-            line-height: 1.7;
-            color: #c0c6d0;
+
+        .fade-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.8s ease;
         }
-        .footer-col h4 {
-            color: white;
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            border-left: 3px solid var(--accent);
-            padding-left: 1rem;
+
+        .fade-left.active {
+            opacity: 1;
+            transform: translateX(0);
         }
-        .footer-col ul {
-            list-style: none;
+
+        .fade-right {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.8s ease;
         }
-        .footer-col li {
-            margin-bottom: 0.8rem;
+
+        .fade-right.active {
+            opacity: 1;
+            transform: translateX(0);
         }
-        .footer-col i {
-            color: var(--accent);
-            width: 1.8rem;
+
+        .scale-up {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s ease;
         }
-        .footer .copyright {
-            text-align: center;
-            padding-top: 3rem;
-            margin-top: 3rem;
-            border-top: 1px solid #3e4b5d;
-            font-size: 0.9rem;
-            color: #aab3c0;
+
+        .scale-up.active {
+            opacity: 1;
+            transform: scale(1);
         }
-        .footer a {
-            color: #f0f0f0;
-            text-decoration: none;
-        }
-        .footer a:hover {
-            color: var(--accent);
-        }
-        .social-icons {
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            padding: 8rem 5% 5rem;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
             display: flex;
-            gap: 1.2rem;
-            margin-top: 1.2rem;
-        }
-        .social-icons i {
-            font-size: 1.4rem;
-            color: white;
-            transition: 0.2s;
-        }
-        .social-icons i:hover {
-            color: var(--accent);
-            transform: translateY(-5px);
+            align-items: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* ===== sections general ===== */
-        section {
-            padding: 5rem 0;
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102,126,234,0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #333 0%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .cta-btn {
+            padding: 1rem 3rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-btn:hover::before {
+            left: 100%;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Services Section */
+        .services {
+            padding: 5rem 5%;
+            background: white;
         }
 
         .section-title {
-            font-size: 2.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-            position: relative;
-        }
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background: var(--accent);
-            margin-top: 0.5rem;
+            text-align: center;
+            margin-bottom: 4rem;
         }
 
-        .btn {
-            display: inline-block;
-            background: var(--accent);
-            color: #1e1e2a;
-            font-weight: 600;
-            padding: 0.9rem 2.4rem;
-            border-radius: 40px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 1rem;
-            box-shadow: 0 7px 14px rgba(201, 167, 107, 0.3);
-        }
-        .btn:hover {
-            background: #b89150;
-            transform: scale(1.02);
-            box-shadow: 0 12px 20px rgba(0,0,0,0.12);
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
         }
 
-        /* hero */
-        .hero {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-            min-height: 80vh;
-            padding: 2rem 0;
-        }
-        .hero-content {
-            flex: 1;
-        }
-        .hero-content h1 {
-            font-size: 3.8rem;
-            line-height: 1.1;
-            margin-bottom: 1.2rem;
-        }
-        .hero-highlight {
-            color: var(--accent);
-            border-bottom: 3px solid var(--accent);
-        }
-        .hero-desc {
-            font-size: 1.2rem;
-            color: var(--text-light);
-            margin: 1.5rem 0 2rem;
-            max-width: 550px;
-        }
-        .hero-stats {
-            display: flex;
-            gap: 2.5rem;
-            margin-top: 2.8rem;
-        }
-        .stat-item h3 {
-            font-size: 2.2rem;
-            margin-bottom: 0.2rem;
-            color: var(--primary);
-        }
-        .hero-image {
-            flex: 1;
-            background: linear-gradient(145deg, #e8e1d3, #d4ccbc);
-            border-radius: 50% 50% 30% 70% / 40% 30% 70% 60%;
-            height: 480px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow);
-        }
-        .hero-image i {
-            font-size: 12rem;
-            color: var(--primary);
-            opacity: 0.5;
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
         }
 
-        /* services grid */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
-        }
-        .service-card {
-            background: var(--white-off);
-            padding: 2.5rem 1.8rem;
-            border-radius: 30px;
-            box-shadow: 0 10px 25px -10px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(201, 167, 107, 0.2);
-        }
-        .service-card:hover {
-            transform: translateY(-12px);
-            border-color: var(--accent);
-            box-shadow: var(--shadow);
-        }
-        .service-card i {
-            font-size: 2.7rem;
-            color: var(--accent);
-            margin-bottom: 1.5rem;
         }
 
-        /* about short */
-        .about-wrap {
-            display: flex;
-            gap: 3rem;
-            align-items: center;
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid rgba(102,126,234,0.1);
         }
-        .about-text {
-            flex: 1;
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(102,126,234,0.3);
         }
-        .about-text h3 {
-            font-size: 2rem;
-            margin: 1rem 0;
-        }
-        .about-signature {
-            font-family: "Playfair Display", serif;
-            font-style: italic;
-            color: var(--accent);
-            margin-top: 2rem;
-            font-size: 1.3rem;
-        }
-        .about-image {
-            flex: 1;
-            background: #d9d0bd;
-            border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%;
-            height: 360px;
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 2rem;
+            color: #667eea;
         }
 
-        /* contact + support */
-        .contact-row {
-            display: flex;
-            gap: 3rem;
-            background: var(--white-off);
-            border-radius: 2rem;
-            padding: 3rem;
-            box-shadow: var(--shadow);
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1rem;
         }
-        .contact-info {
+
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* About Section */
+        .about {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%);
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-content {
             flex: 1;
         }
-        .contact-info p {
-            margin: 1.5rem 0;
+
+        .about-content h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+        }
+
+        .about-image {
+            flex: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 5rem 5%;
+            background: white;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.popular {
+            transform: scale(1.05);
+            border-color: #667eea;
+        }
+
+        .pricing-card.popular::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.5rem 3rem;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 50px rgba(102,126,234,0.3);
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #333;
+            margin: 1rem 0;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .features li {
+            padding: 0.5rem 0;
+            color: #666;
+        }
+
+        .features i {
+            color: #667eea;
+            margin-right: 0.5rem;
+        }
+
+        .pricing-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(102,126,234,0.4);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%);
+        }
+
+        .testimonials-slider {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            margin: 1rem;
+        }
+
+        .testimonial-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            overflow: hidden;
+            border: 3px solid #667eea;
+        }
+
+        .testimonial-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .testimonial-text {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .testimonial-name {
+            font-size: 1.2rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .testimonial-position {
+            color: #667eea;
+            font-size: 0.9rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 5rem 5%;
+            background: white;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-info h3 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .contact-detail {
             display: flex;
             align-items: center;
             gap: 1rem;
-        }
-        .contact-info i {
-            font-size: 1.5rem;
-            color: var(--accent);
-            width: 2rem;
-        }
-        .stripe-badge {
-            background: #6773e6; /* stripe colour */
-            color: white;
-            padding: 0.5rem 1.2rem;
-            border-radius: 30px;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-            margin: 1rem 0 0.5rem;
-        }
-        .stripe-badge i {
-            color: white;
-            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8faff;
+            border-radius: 10px;
+            transition: all 0.3s ease;
         }
 
-        /* responsive */
-        @media screen and (max-width: 1000px) {
-            .hero, .about-wrap, .contact-row {
-                flex-direction: column;
-            }
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .footer-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .contact-detail:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.2);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .contact-text h4 {
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+
+        .contact-text p {
+            color: #666;
+        }
+
+        .contact-form {
+            background: #f8faff;
+            padding: 2rem;
+            border-radius: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            background: white;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102,126,234,0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1f35;
+            color: white;
+            padding: 4rem 5% 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .footer-section p {
+            color: #b0b3c5;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: translateY(-5px);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: #b0b3c5;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+            padding-left: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #b0b3c5;
+        }
+
+        .footer-bottom p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Stripe Elements */
+        .stripe-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stripe-modal.active {
+            display: flex;
+        }
+
+        .stripe-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+
+        .stripe-form h2 {
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .card-element {
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-element.StripeElement--focus {
+            border-color: #667eea;
+        }
+
+        .pay-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
             .nav-links {
                 display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 2rem;
+                flex-direction: column;
+                text-align: center;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             }
-            .mobile-menu {
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-btn {
                 display: block;
             }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 6rem;
+            }
+
             .hero-content h1 {
-                font-size: 3rem;
+                font-size: 2.5rem;
             }
-        }
 
-        @media screen and (max-width: 640px) {
-            .services-grid {
+            .about {
+                flex-direction: column;
+            }
+
+            .stats {
+                justify-content: center;
+            }
+
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+
+            .contact-container {
                 grid-template-columns: 1fr;
             }
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-            .section-title {
-                font-size: 2.2rem;
-            }
-            .navbar {
-                padding: 1rem;
-            }
-            .hero-image {
-                height: 280px;
-            }
-            .hero-image i {
-                font-size: 8rem;
-            }
-        }
 
-        /* Mobile menu drawer (simulated because we keep it simple) */
-        .mobile-drawer {
-            display: none;
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-section h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .social-links {
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">Yemz<span>·dc</span></div>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="logo">
+            Yemz Digital Consulting
+            <span>YDC</span>
+        </div>
         <div class="nav-links">
             <a href="#home">Home</a>
             <a href="#services">Services</a>
             <a href="#about">About</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#testimonials">Testimonials</a>
             <a href="#contact">Contact</a>
-            <a href="#payment" class="cta-nav"> <i class="fas fa-lock" style="margin-right: 8px;"></i>Pay with Stripe</a>
         </div>
-        <div class="mobile-menu"><i class="fas fa-bars"></i></div>
+        <div class="menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
     </nav>
 
-    <main>
-        <!-- Section 1: HOME / HERO -->
-        <section id="home">
-            <div class="container hero">
-                <div class="hero-content reveal">
-                    <h1>Digital <span class="hero-highlight">growth</span> that feels human.</h1>
-                    <p class="hero-desc">Yemz Digital Consulting — we blend empathy with data, design with conversion. Let’s build something unforgettable.</p>
-                    <a href="#contact" class="btn"><i class="fas fa-calendar-check" style="margin-right: 10px;"></i>Free consultation</a>
-                    <div class="hero-stats">
-                        <div class="stat-item"><h3>95%</h3><p>client retention</p></div>
-                        <div class="stat-item"><h3>+120</h3><p>projects delivered</p></div>
-                    </div>
-                </div>
-                <div class="hero-image reveal">
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content fade-left">
+            <h1>Transform Your Digital Presence</h1>
+            <p>Yemz Digital Consulting - Your partner in digital excellence. We help businesses thrive in the digital age with cutting-edge strategies and solutions.</p>
+            <button class="cta-btn" onclick="openStripeModal()">Get Started Today</button>
+        </div>
+        <div class="hero-image fade-right">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 800 800'%3E%3Cg fill='%23667eea' fill-opacity='0.2'%3E%3Ccircle cx='400' cy='400' r='200'/%3E%3Ccircle cx='400' cy='400' r='150' fill='%23764ba2' fill-opacity='0.2'/%3E%3Ccircle cx='400' cy='400' r='100' fill='%23667eea' fill-opacity='0.2'/%3E%3C/g%3E%3Ctext x='280' y='420' font-family='Arial' font-size='48' fill='%23667eea'%3EYDC%3C/text%3E%3C/svg%3E" alt="Digital Consulting">
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="section-title fade-up">
+            <h2>Our Services</h2>
+            <p>Comprehensive digital solutions tailored to your needs</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card fade-up">
+                <div class="service-icon">
                     <i class="fas fa-chart-line"></i>
                 </div>
+                <h3>Digital Strategy</h3>
+                <p>Data-driven strategies to accelerate your business growth and maximize ROI.</p>
             </div>
-        </section>
-
-        <!-- Section 2: SERVICES (three cards) -->
-        <section id="services" style="background-color: var(--soft-bg);">
-            <div class="container">
-                <h2 class="section-title reveal">what we do</h2>
-                <div class="services-grid">
-                    <div class="service-card reveal">
-                        <i class="fas fa-fingerprint"></i>
-                        <h3>Brand strategy</h3>
-                        <p>Identity that resonates.我们从人开始。we craft stories and visuals that make your audience feel seen.</p>
-                    </div>
-                    <div class="service-card reveal">
-                        <i class="fas fa-code"></i>
-                        <h3>Web · commerce</h3>
-                        <p>Stripe-ready sites, smooth checkout, and seamless backend. We build trust into every pixel.</p>
-                    </div>
-                    <div class="service-card reveal">
-                        <i class="fas fa-magnifying-glass-dollar"></i>
-                        <h3>Growth consulting</h3>
-                        <p>Data-informed funnels, CRO, and paid media. No fluff, just sustainable traction.</p>
-                    </div>
+            <div class="service-card fade-up" style="transition-delay: 0.2s;">
+                <div class="service-icon">
+                    <i class="fas fa-laptop-code"></i>
                 </div>
+                <h3>Web Development</h3>
+                <p>Custom websites and applications that engage users and drive conversions.</p>
             </div>
-        </section>
-
-        <!-- Section 3: ABOUT (with address details) -->
-        <section id="about">
-            <div class="container about-wrap">
-                <div class="about-text reveal">
-                    <h2 class="section-title" style="font-size: 2.5rem;">Emmanuel Ishaya</h2>
-                    <h3>founder & principal consultant</h3>
-                    <p>With offices in Lagos and Los Angeles, Yemz Digital Consulting bridges creativity and technical precision. We're a boutique firm that treats your business like our own.</p>
-                    <p><i class="fas fa-map-pin" style="color: var(--accent); margin-right: 0.6rem;"></i> <strong>NG mailing:</strong> Plot 3, Beside Ecwa Church Kwali, Abuja FCT, 904105, Nigeria.</p>
-                    <p><i class="fas fa-map-pin" style="color: var(--accent); margin-right: 0.6rem;"></i> <strong>US business:</strong> 146 West 1st Street, Los Angeles, California, 90012.</p>
-                    <div class="about-signature">— YDC: your digital compass</div>
+            <div class="service-card fade-up" style="transition-delay: 0.4s;">
+                <div class="service-icon">
+                    <i class="fas fa-search"></i>
                 </div>
-                <div class="about-image reveal">
-                    <i class="fas fa-hand-peace" style="font-size: 6rem; color: var(--primary);"></i>
-                </div>
+                <h3>SEO Optimization</h3>
+                <p>Boost your visibility and rank higher in search engine results.</p>
             </div>
-        </section>
-
-        <!-- Section 4: WHY STRIPE / PAYMENTS (stripe trust section) -->
-        <section id="payment" style="background: linear-gradient(110deg, #f6f3ed, #ffffff);">
-            <div class="container">
-                <div class="reveal">
-                    <span class="stripe-badge"><i class="fab fa-stripe-s"></i> Stripe verified partner</span>
-                    <h2 class="section-title" style="margin-top: 0.5rem;">Payments, secured by Stripe</h2>
+            <div class="service-card fade-up" style="transition-delay: 0.6s;">
+                <div class="service-icon">
+                    <i class="fas fa-envelope"></i>
                 </div>
-                <div style="display: flex; gap: 3rem; flex-wrap: wrap; align-items: center;">
-                    <div class="reveal" style="flex: 1;">
-                        <p style="font-size: 1.3rem;">We integrate Stripe directly — whether it's one‑time invoices, subscriptions, or marketplaces. All major cards, Apple Pay, Google Pay. Your customers won't even notice the magic behind the scenes.</p>
-                        <ul style="margin-top: 2rem; list-style: none;">
-                            <li><i class="fas fa-check-circle" style="color: var(--accent);"></i> PCI-DSS compliant</li>
-                            <li><i class="fas fa-check-circle" style="color: var(--accent);"></i> 180+ currencies</li>
-                            <li><i class="fas fa-check-circle" style="color: var(--accent);"></i> dispute protection</li>
-                        </ul>
-                    </div>
-                    <div class="reveal" style="flex: 1; text-align: center;">
-                        <i class="fab fa-stripe" style="font-size: 5rem; color: #6773e6;"></i>
-                        <i class="fab fa-cc-visa" style="font-size: 3rem; margin-left: 1rem; color: #1a1f71;"></i>
-                        <i class="fab fa-cc-mastercard" style="font-size: 3rem; margin-left: 1rem; color: #eb001b;"></i>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 5: CONTACT & SUPPORT (with numbers) -->
-        <section id="contact">
-            <div class="container contact-row">
-                <div class="contact-info reveal">
-                    <h2 class="section-title">talk to a human</h2>
-                    <p><i class="fas fa-phone-alt"></i> Nigeria: <strong>+234 903 855 6017</strong></p>
-                    <p><i class="fas fa-phone-alt"></i> US: <strong>+1 843 732 4248</strong></p>
-                    <p><i class="fas fa-envelope"></i> consulting@yemz.digital</p>
-                    <p><i class="fas fa-clock"></i> Mon–Fri, 9am–7pm (WAT/EST)</p>
-                    <div style="margin-top: 2rem;">
-                        <a href="#" class="btn"><i class="fab fa-whatsapp"></i> WhatsApp us</a>
-                    </div>
-                </div>
-                <div class="contact-info reveal">
-                    <h3 style="font-size: 1.8rem;">📍 quick support</h3>
-                    <p>Our LA and Abuja teams respond within 2 hours. For urgent Stripe issues, we’re here.</p>
-                    <div style="background: #eae5db; padding: 1.5rem; border-radius: 20px;">
-                        <i class="fas fa-shield-alt" style="color: var(--accent); font-size: 2rem;"></i>
-                        <p><strong>Stripe integration helpline:</strong> directly reach our devs at +1 843 732 4248.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 6: CLIENTS / TRUST (social proof) -->
-        <section style="background-color: var(--soft-bg);">
-            <div class="container">
-                <div class="reveal" style="text-align: center;">
-                    <h2 class="section-title" style="display: inline-block; text-align: left;">trusted by founders</h2>
-                </div>
-                <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; margin-top: 3rem;">
-                    <div class="reveal" style="background: white; border-radius: 60px; padding: 1rem 2.5rem; box-shadow: 0 5px 12px rgba(0,0,0,0.03);"><i class="fas fa-dragon"></i> LAGOS GROVE</div>
-                    <div class="reveal" style="background: white; border-radius: 60px; padding: 1rem 2.5rem; box-shadow: 0 5px 12px rgba(0,0,0,0.03);"><i class="fas fa-feather"></i> PLAYA VENTURES</div>
-                    <div class="reveal" style="background: white; border-radius: 60px; padding: 1rem 2.5rem; box-shadow: 0 5px 12px rgba(0,0,0,0.03);"><i class="fas fa-fan"></i> KWALI TECH</div>
-                    <div class="reveal" style="background: white; border-radius: 60px; padding: 1rem 2.5rem; box-shadow: 0 5px 12px rgba(0,0,0,0.03);"><i class="fas fa-crown"></i> WEST 1ST</div>
-                </div>
-                <div class="reveal" style="margin-top: 3rem; font-size: 1.1rem; border-left: 4px solid var(--accent); padding-left: 1.5rem;">
-                    <i class="fas fa-quote-left" style="color: var(--accent);"></i> YDC revamped our entire checkout with Stripe — revenue grew 34% in two months. They just get it. <br>— <strong>Chioma A., founder</strong>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- DETAILED FOOTER (with all addresses, support, stripe, etc) -->
-    <footer class="footer">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4>Yemz<span style="color: #c9a76b;">·dc</span></h4>
-                <p>Digital consulting with soul. We build, grow, and optimize businesses using ethical strategy + Stripe-powered systems.</p>
-                <div class="social-icons">
-                    <i class="fab fa-linkedin-in"></i>
-                    <i class="fab fa-x-twitter"></i>
-                    <i class="fab fa-instagram"></i>
-                    <i class="fab fa-github"></i>
-                </div>
-            </div>
-            <div class="footer-col">
-                <h4>offices</h4>
-                <ul>
-                    <li><i class="fas fa-location-dot"></i> US: 146 West 1st Street, Los Angeles, CA 90012</li>
-                    <li><i class="fas fa-location-dot"></i> NG: Plot 3, Beside ECWA Church Kwali, Abuja 904105</li>
-                    <li><i class="fas fa-globe"></i> Response: EN / Pidgin / Yoruba</li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>support & legal</h4>
-                <ul>
-                    <li><i class="fas fa-phone"></i> +234 903 855 6017</li>
-                    <li><i class="fas fa-phone"></i> +1 843 732 4248</li>
-                    <li><i class="fas fa-envelope"></i> stripe-help@yemz.digital</li>
-                    <li><i class="fas fa-file-contract"></i> Stripe terms & privacy</li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Stripe ready</h4>
-                <p><i class="fab fa-stripe"></i> Stripe connected account · accepts payments globally. All major payment methods.</p>
-                <p style="margin-top: 1rem;"><i class="fas fa-shield"></i> PCI compliant · 3D secure</p>
-                <p><i class="fas fa-credit-card"></i> test mode:4242 4242 4242 4242</p>
-                <!-- note: just a demo visual -->
+                <h3>Email Marketing</h3>
+                <p>Targeted campaigns that nurture leads and build customer loyalty.</p>
             </div>
         </div>
-        <div class="copyright">
-            © 2025 Yemz Digital Consulting (YDC) — Emmanuel Ishaya. All rights reserved. Stripe is a trademark of Stripe, Inc.
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="about-content fade-left">
+            <h2>About Yemz Digital Consulting</h2>
+            <p>Founded by Emmanuel Ishaya, YDC is a premier digital consulting firm dedicated to helping businesses navigate the complex digital landscape. With offices in Abuja, Nigeria and Los Angeles, California, we bring a global perspective to local challenges.</p>
+            <p>Our team of experts combines creativity with data-driven insights to deliver exceptional results for our clients. We don't just consult - we partner with you to implement solutions that drive real growth.</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Projects</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">Clients</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Satisfaction</div>
+                </div>
+            </div>
+        </div>
+        <div class="about-image fade-right">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400' viewBox='0 0 600 400'%3E%3Crect width='600' height='400' fill='%23667eea' fill-opacity='0.1'/%3E%3Ccircle cx='300' cy='200' r='100' fill='%23667eea' fill-opacity='0.2'/%3E%3Ctext x='250' y='220' font-family='Arial' font-size='48' fill='%23667eea'%3EYDC%3C/text%3E%3C/svg%3E" alt="About YDC">
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="section-title fade-up">
+            <h2>Pricing Plans</h2>
+            <p>Choose the perfect plan for your business needs</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card fade-up">
+                <h3>Starter</h3>
+                <div class="price">$499<span>/month</span></div>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> Digital Strategy Review</li>
+                    <li><i class="fas fa-check"></i> Basic SEO Optimization</li>
+                    <li><i class="fas fa-check"></i> Monthly Analytics Report</li>
+                    <li><i class="fas fa-check"></i> Email Support</li>
+                </ul>
+                <button class="pricing-btn" onclick="openStripeModal()">Get Started</button>
+            </div>
+            <div class="pricing-card popular fade-up" style="transition-delay: 0.2s;">
+                <h3>Professional</h3>
+                <div class="price">$999<span>/month</span></div>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> Everything in Starter</li>
+                    <li><i class="fas fa-check"></i> Advanced SEO Strategy</li>
+                    <li><i class="fas fa-check"></i> Social Media Management</li>
+                    <li><i class="fas fa-check"></i> Priority Support</li>
+                    <li><i class="fas fa-check"></i> Monthly Strategy Call</li>
+                </ul>
+                <button class="pricing-btn" onclick="openStripeModal()">Get Started</button>
+            </div>
+            <div class="pricing-card fade-up" style="transition-delay: 0.4s;">
+                <h3>Enterprise</h3>
+                <div class="price">$1999<span>/month</span></div>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> Everything in Professional</li>
+                    <li><i class="fas fa-check"></i> Custom Development</li>
+                    <li><i class="fas fa-check"></i> 24/7 Phone Support</li>
+                    <li><i class="fas fa-check"></i> Dedicated Account Manager</li>
+                    <li><i class="fas fa-check"></i> Custom Reporting</li>
+                </ul>
+                <button class="pricing-btn" onclick="openStripeModal()">Get Started</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="section-title fade-up">
+            <h2>What Our Clients Say</h2>
+            <p>Trusted by businesses worldwide</p>
+        </div>
+        <div class="testimonials-slider fade-up">
+            <div class="testimonial-card">
+                <div class="testimonial-image">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23667eea' fill-opacity='0.2'/%3E%3Ctext x='35' y='70' font-family='Arial' font-size='40' fill='%23667eea'%3EJD%3C/text%3E%3C/svg%3E" alt="Client">
+                </div>
+                <p class="testimonial-text">"Yemz Digital Consulting transformed our online presence completely. Their strategic approach and attention to detail are unmatched."</p>
+                <h4 class="testimonial-name">John Doe</h4>
+                <p class="testimonial-position">CEO, TechStart</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="section-title fade-up">
+            <h2>Contact Us</h2>
+            <p>Get in touch with our team</p>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info fade-left">
+                <h3>Let's talk about your project</h3>
+                <div class="contact-detail">
+                    <div class="contact-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Founder</h4>
+                        <p>Emmanuel Ishaya</p>
+                    </div>
+                </div>
+                <div class="contact-detail">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Nigeria Office</h4>
+                        <p>Plot 3, Beside Ecwa Church Kwali<br>Abuja FCT, 904105, Nigeria</p>
+                    </div>
+                </div>
+                <div class="contact-detail">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>US Office</h4>
+                        <p>146 West 1st Street<br>Los Angeles, California 90012</p>
+                    </div>
+                </div>
+                <div class="contact-detail">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Customer Support</h4>
+                        <p>Nigeria: +234 903 855 6017<br>US: +1 843 732 4248</p>
+                    </div>
+                </div>
+                <div class="contact-detail">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Email</h4>
+                        <p>info@yemzdigital.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form fade-right">
+                <form id="contactForm" onsubmit="event.preventDefault(); alert('Thank you for contacting us! We will respond within 24 hours.'); this.reset();">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <select required>
+                            <option value="">Select Service</option>
+                            <option value="strategy">Digital Strategy</option>
+                            <option value="web">Web Development</option>
+                            <option value="seo">SEO Optimization</option>
+                            <option value="email">Email Marketing</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Yemz Digital Consulting</h3>
+                <p>Your trusted partner in digital transformation. We help businesses leverage technology to achieve their goals and exceed expectations.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Our Services</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Digital Strategy</a></li>
+                    <li><a href="#">Web Development</a></li>
+                    <li><a href="#">SEO Optimization</a></li>
+                    <li><a href="#">Email Marketing</a></li>
+                    <li><a href="#">Social Media Management</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Subscribe to get updates on digital trends</p>
+                <form style="margin-top: 1rem;" onsubmit="event.preventDefault(); alert('Subscribed successfully!'); this.reset();">
+                    <input type="email" placeholder="Your Email" style="width: 100%; padding: 0.8rem; border-radius: 5px; border: none; margin-bottom: 0.5rem;">
+                    <button type="submit" style="width: 100%; padding: 0.8rem; border-radius: 5px; border: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; cursor: pointer;">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Yemz Digital Consulting (YDC). All rights reserved.</p>
+            <p>Designed with ❤️ for digital excellence</p>
         </div>
     </footer>
 
-    <!-- animation on scroll script (simple reveal) -->
-    <script>
-        (function() {
-            const reveals = document.querySelectorAll('.reveal');
+    <!-- Stripe Modal -->
+    <div class="stripe-modal" id="stripeModal">
+        <div class="stripe-form">
+            <span class="close-modal" onclick="closeStripeModal()">&times;</span>
+            <h2>Payment Details</h2>
+            <p style="color: #666; margin-bottom: 1rem;">Secure payment powered by Stripe</p>
+            <form id="payment-form" onsubmit="event.preventDefault(); processPayment()">
+                <div class="form-group">
+                    <input type="text" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <select required>
+                        <option value="">Select Plan</option>
+                        <option value="499">Starter - $499/month</option>
+                        <option value="999">Professional - $999/month</option>
+                        <option value="1999">Enterprise - $1999/month</option>
+                    </select>
+                </div>
+                <div class="card-element" id="card-element">
+                    <!-- Stripe card element will be mounted here -->
+                    <input type="text" placeholder="Card Number" style="width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 5px;" value="4242 4242 4242 4242">
+                </div>
+                <button type="submit" class="pay-btn">Pay Now</button>
+            </form>
+            <p style="color: #666; font-size: 0.8rem; margin-top: 1rem; text-align: center;">Test mode: Use card 4242 4242 4242 4242</p>
+        </div>
+    </div>
 
-            function checkReveal() {
-                for (let el of reveals) {
-                    const windowHeight = window.innerHeight;
-                    const elementTop = el.getBoundingClientRect().top;
-                    const elementVisible = 150; // trigger offset
-                    if (elementTop < windowHeight - elementVisible) {
-                        el.classList.add('active');
-                    } else {
-                        // optional: remove class if you want re-hidden – but we keep active
-                        // el.classList.remove('active'); // (usually not needed)
-                    }
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // Initialize Stripe
+        const stripe = Stripe('pk_test_your_publishable_key_here'); // Replace with your actual Stripe publishable key
+        const elements = stripe.elements();
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                nav.style.padding = '1rem 5%';
+                nav.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                nav.style.padding = '1.5rem 5%';
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        // Mobile Menu Toggle
+        document.querySelector('.menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.nav-links').classList.remove('active');
+            });
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
+            });
+        });
+
+        // Animation on Scroll
+        const animateElements = document.querySelectorAll('.fade-up, .fade-left, .fade-right, .scale-up');
+        
+        function checkScroll() {
+            animateElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementBottom = element.getBoundingClientRect().bottom;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100 && elementBottom > 0) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkScroll);
+        window.addEventListener('load', checkScroll);
+
+        // Stripe Modal Functions
+        function openStripeModal() {
+            document.getElementById('stripeModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeStripeModal() {
+            document.getElementById('stripeModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('stripeModal');
+            if (e.target === modal) {
+                closeStripeModal();
+            }
+        });
+
+        // Process Payment
+        function processPayment() {
+            // Get form data
+            const form = document.getElementById('payment-form');
+            const name = form.querySelector('input[type="text"]').value;
+            const email = form.querySelector('input[type="email"]').value;
+            const plan = form.querySelector('select').value;
+            
+            if (!name || !email || !plan) {
+                alert('Please fill in all fields');
+                return;
             }
 
-            window.addEventListener('scroll', checkReveal);
-            window.addEventListener('resize', checkReveal);
-            checkReveal(); // initial
+            // Simulate payment processing
+            alert('Processing payment... This is a test. In production, this would connect to Stripe.');
+            
+            // In production, you would use:
+            /*
+            stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: cardElement,
+                    billing_details: {
+                        name: name,
+                        email: email
+                    }
+                }
+            }).then(function(result) {
+                if (result.error) {
+                    alert('Payment failed: ' + result.error.message);
+                } else {
+                    alert('Payment successful! Thank you for your purchase.');
+                    closeStripeModal();
+                }
+            });
+            */
+            
+            closeStripeModal();
+        }
 
-            // tiny mobile menu simulation (just log)
-            document.querySelector('.mobile-menu').addEventListener('click', ()=> alert('Navigation: Home, Services, About, Contact, Stripe ↑\n (fully responsive layout)'));
-        })();
+        // Service Card Click Handler
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const service = this.querySelector('h3').textContent;
+                alert(`Thank you for your interest in ${service}! Please contact us for more information.`);
+            });
+        });
+
+        // Add parallax effect to hero
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('.hero');
+            const scrolled = window.pageYOffset;
+            hero.style.backgroundPositionY = scrolled * 0.5 + 'px';
+        });
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.querySelector('.footer-bottom p:first-child').innerHTML = `&copy; ${new Date().getFullYear()} Yemz Digital Consulting (YDC). All rights reserved.`;
+            
+            // Add animation to service cards on hover
+            const cards = document.querySelectorAll('.service-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Newsletter form validation
+            const newsletterForm = document.querySelector('.footer-section form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = this.querySelector('input[type="email"]').value;
+                    if (email && email.includes('@')) {
+                        alert(`Thank you for subscribing! Check your inbox at ${email} for updates.`);
+                        this.reset();
+                    } else {
+                        alert('Please enter a valid email address');
+                    }
+                });
+            }
+        });
     </script>
-
-    <!-- Stripe can be integrated via JS; this is a design mockup that meets stripe expectations (real business info, clear contact, payment section) -->
-    <!-- meta info: site meets stripe requirements: valid business name, address, customer support, returns/contact, all displayed. -->
 </body>
 </html>
